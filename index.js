@@ -53,7 +53,7 @@ module.exports = function (options) {
         if (response.error) {
           message - response.error.error_description;
         }
-        callback({ code: response.statusCode || 400, message || "Error while requesting Google Fitness API" });
+        callback({ code: response.statusCode || 400, message: message || "Error while requesting Google Fitness API" });
       });
     }
   };
