@@ -1,0 +1,27 @@
+{
+  "name": "gfit",
+  "version": "1.0.0",
+  "description": "make google fit api simpler",
+  "main": "index.js",
+  "dependencies": {
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergiator/gfit.git"
+  },
+  "keywords": [
+    "google-fit"
+  ],
+  "author": "sergiator",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sergiator/gfit/issues"
+  },
+  "homepage": "https://github.com/sergiator/gfit#readme"
+}
