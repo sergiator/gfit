@@ -27,7 +27,7 @@ module.exports = function (options) {
       if (!authCode) {
         return callback({ code: 400, message: "Missing authCode" });
       }
-      requset({
+      request({
         method: 'POST',
         uri: 'https://www.googleapis.com/oauth2/v4/token',
         form: {
@@ -72,7 +72,7 @@ module.exports = function (options) {
       if (!params.endTime) {
         return callback({ code: 400, message: "Missing endTime parameter" });
       }
-      requset({
+      request({
         method: 'POST',
         uri: 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
         body: {
