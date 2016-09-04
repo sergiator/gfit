@@ -64,13 +64,13 @@ module.exports = function (options) {
         return callback({ code: 400, message: "Missing params" });
       }
       if (!params.accessToken) {
-        return callabck({ code: 400, message: "Missing accessToken parameter" });
+        return callback({ code: 400, message: "Missing accessToken parameter" });
       }
       if (!params.startTime) {
-        return callabck({ code: 400, message: "Missing startTime parameter" });
+        return callback({ code: 400, message: "Missing startTime parameter" });
       }
       if (!params.endTime) {
-        return callabck({ code: 400, message: "Missing endTime parameter" });
+        return callback({ code: 400, message: "Missing endTime parameter" });
       }
       requset({
         method: 'POST',
