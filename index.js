@@ -1,6 +1,6 @@
 var request = require('request-promise');
 
-module.exports = funtion (options) {
+module.exports = function (options) {
 
   if (!options) {
     throw new Error('Options are required!');
@@ -41,10 +41,10 @@ module.exports = funtion (options) {
         }
       }).then(function (body) {
         if (!body.access_token) {
-          return callback({ code 422, message: "Got no access_token from Google Fitness" })
+          return callback({ code: 422, message: "Got no access_token from Google Fitness" })
         }
         if (!body.refresh_token) {
-          return callback({ code 422, message: "Got no refresh_token from Google Fitness" });
+          return callback({ code: 422, message: "Got no refresh_token from Google Fitness" });
         }
         return callback(null, { accessToken: body.accessToken, refreshToken: body.refreshToken });
       }).catch(function (response) {
