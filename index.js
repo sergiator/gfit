@@ -89,7 +89,7 @@ module.exports = function (options) {
         }
       }).then(function (body) {
         console.log(body);
-        return res.json({ message: 'Success response' });
+        return callback(null, { body: body });
       }).catch(function (response) {
         response = response || {};
         var message;
