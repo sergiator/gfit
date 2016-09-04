@@ -37,7 +37,7 @@ module.exports = function (options) {
           grant_type: 'authorization_code'
         },
         headers: {
-          'content-type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(function (body) {
         if (!body.access_token) {
@@ -53,7 +53,50 @@ module.exports = function (options) {
         if (response.error) {
           message - response.error.error_description;
         }
-        callback({ code: response.statusCode || 400, message: message || "Error while requesting Google Fitness API" });
+        return callback({ code: response.statusCode || 400, message: message || "Error while requesting Google Fitness API" });
+      });
+    },
+    getSteps: function (params, callback) {
+      if (!callback || (typeof(callback) !== 'function')) {
+        throw new Error('Callback must be a function');
+      }
+      if (!params) {
+        return callabck({ code: 400, message: "Missing params" });
+      }
+      if (!params.accessToken) {
+        return callabck({ code: 400, message: "Missing accessToken parameter" });
+      }
+      if (!params.startTime) {
+        return callabck({ code: 400, message: "Missing startTime parameter" });
+      }
+      if (!params.endTime) {
+        return callabck({ code: 400, message: "Missing endTime parameter" });
+      }
+      requset({
+        method: 'POST',
+        uri: 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
+        body: {
+          "aggregateBy": [{
+          "dataTypeName": "com.google.step_count.delta",
+          "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+        }],
+        "startTimeMillis": params.startTime,
+        "endTimeMillis": params.endTime
+        },
+        headers: {
+          'Content-Type': 'application/json;encoding=utf-8',
+          'Authorization': 'Bearer' + params.accessToken
+        }
+      }).then(function (body) {
+        console.log(body);
+        return res.json({ message: 'Success response' });
+      }).catch(function (response) {
+        response = response || {};
+        var message;
+        if (response.error) {
+          message - response.error.error_description;
+        }
+        return callback({ code: response.statusCode || 400, message: message || "Error while requesting Google Fitness API" });
       });
     }
   };
