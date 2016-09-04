@@ -61,7 +61,7 @@ module.exports = function (options) {
         throw new Error('Callback must be a function');
       }
       if (!params) {
-        return callabck({ code: 400, message: "Missing params" });
+        return callback({ code: 400, message: "Missing params" });
       }
       if (!params.accessToken) {
         return callabck({ code: 400, message: "Missing accessToken parameter" });
