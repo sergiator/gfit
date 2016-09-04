@@ -56,6 +56,23 @@ module.exports = function (options) {
         return callback({ code: response.statusCode || 400, message: message || "Error while requesting Google Fitness API" });
       });
     },
+    getAccessToken: function (refreshToken, callback) {
+      if (!callback || (typeof(callback) !== 'function')) {
+        throw new Error('Callback must be a function');
+      }
+      if (!refreshToken) {
+        return callback({ code: 400, message: "Missing refreshToken" });
+      }
+      /* TODO:
+      POST request to https://www.googleapis.com/oauth2/v4/token. The request must include the following parameters:
+      Field 	Description
+      refresh_token 	The refresh token returned from the authorization code exchange.
+      client_id 	The client ID you obtained from the Google API Console.
+      client_secret 	The client secret you obtained from the API Console (not applicable for clients registered as Android, iOS or Chrome applications).
+      grant_type 	As defined in the OAuth 2.0 specification, this field must contain a value of refresh_token.
+      */
+      return callback({ code: 500, message: "THIS FUNCTION IS NOT READY YET (((" });
+    },
     getSteps: function (params, callback) {
       if (!callback || (typeof(callback) !== 'function')) {
         throw new Error('Callback must be a function');
@@ -75,17 +92,34 @@ module.exports = function (options) {
       request({
         method: 'POST',
         uri: 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
+        headers: {
+          'Content-Type': 'application/json;encoding=utf-8',
+          'Authorization': 'Bearer ' + params.accessToken
+        },
+        json: true
+      }).then(function (body) {
+        console.log(body);
+        res.json({ body: body });
+      }).catch(function (response) {
+        var errObj = response.error || {};
+        var error = errObj.error || {};
+        return callback({ code: error.code || 400, message: error.message || "Error while requesting Google Fitness API" });
+      });
+      //return callback(null, { message: 'All seems good here...' });
+      /*request({
+        method: 'POST',
+        uri: 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
         body: {
           "aggregateBy": [{
-          "dataTypeName": "com.google.step_count.delta",
-          "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
-        }],
-        "startTimeMillis": params.startTime,
-        "endTimeMillis": params.endTime
+            "dataTypeName": "com.google.step_count.delta",
+            "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+          }],
+          startTimeMillis: '' + params.startTime,
+          endTimeMillis: '' + params.endTime
         },
         headers: {
           'Content-Type': 'application/json;encoding=utf-8',
-          'Authorization': 'Bearer' + params.accessToken
+          'Authorization': 'Bearer ' + params.accessToken
         }
       }).then(function (body) {
         console.log(body);
@@ -94,10 +128,10 @@ module.exports = function (options) {
         response = response || {};
         var message;
         if (response.error) {
-          message - response.error.error_description;
+          message = response.error.error_description;
         }
         return callback({ code: response.statusCode || 400, message: message || "Error while requesting Google Fitness API" });
-      });
+      });*/
     }
   };
 };
